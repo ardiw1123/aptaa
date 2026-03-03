@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\StokMasukController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,6 +23,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/stok_masuk', [StokMasukController::class, 'create'])->name('stok_masuk.create');
+    Route::post('/stok_masuk', [StokMasukController::class, 'store'])->name('stok_masuk.store');
+    Route::get('/riwayat_stok', [StokMasukController::class, 'index'])->name('stok_masuk.index');
+    Route::get('/stok_masuk/{id}/edit', [StokMasukController::class, 'edit'])->name('stok_masuk.edit');
+    Route::put('/stok_masuk/{id}', [StokMasukController::class, 'update'])->name('stok_masuk.update');
 });
 
 require __DIR__.'/auth.php';
