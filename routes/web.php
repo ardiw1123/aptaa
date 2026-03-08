@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\StokMasukController;
+use App\Http\Controllers\PenjualanController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -33,4 +34,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/stok_masuk/{id}', [StokMasukController::class, 'update'])->name('stok_masuk.update');
 });
 
+Route::middleware(['auth'])->group(function (){
+    Route::get('/penjualan/riwayat', [PenjualanController::class, 'index'])->name('penjualan.index');
+    Route::get('/penjualan/kasir', [PenjualanController::class, 'create'])->name('penjualan.create');
+    Route::post('/penjualan/kasir', [PenjualanController::class, 'store'])->name('penjualan.store');
+});
 require __DIR__.'/auth.php';
