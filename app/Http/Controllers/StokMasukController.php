@@ -58,52 +58,69 @@ class StokMasukController extends Controller
     /**
      * Menampilkan form edit data stok
      */
+    /**
+     * Menampilkan form edit stok masuk (Khusus Tim Gudang & Belum di-ACC)
+     */
     public function edit($id)
     {
-        $stok = StokMasuk::findOrFail($id);
+        // 1. AMBIL DATA DULU (Ini yang bikin variabel $stokMasuk jadi ada isinya)
+        $stokMasuk = StokMasuk::findOrFail($id);
+
+        // 2. CEK GEMBOK KEAMANAN
+        if ($stokMasuk->is_verified) {
+            return redirect()->route('stok-masuk.index')->with('error', 'Akses ditolak! Data ini sudah diverifikasi Admin dan tidak bisa diubah lagi.');
+        }
+
+        // 3. KALAU AMAN, TAMPILIN FORM
         $barangs = Barang::orderBy('nama_barang', 'asc')->get();
-        return view('dashboard.stok_masuk_edit', compact('stok', 'barangs'));
+        return view('dashboard.stok-masuk-edit', compact('stokMasuk', 'barangs'));
     }
 
     /**
-     * Memproses update data dan menyesuaikan kalkulasi stok master
+     * Menyimpan perubahan data stok masuk
      */
     public function update(Request $request, $id)
     {
+        // 1. AMBIL DATA DULU
+        $stokMasuk = StokMasuk::findOrFail($id);
+
+        // 2. CEK GEMBOK KEAMANAN (Cek lagi buat jaga-jaga ada yang nekat tembusin URL)
+        if ($stokMasuk->is_verified) {
+            return redirect()->route('stok-masuk.index')->with('error', 'Akses ditolak! Data ini sudah diverifikasi Admin.');
+        }
+
+        // 3. VALIDASI FORM
         $request->validate([
             'barang_id' => 'required|exists:barangs,id',
-            'tanggal_masuk' => 'required|date',
             'jumlah_unit' => 'nullable|numeric|min:0',
             'jumlah_berat' => 'nullable|numeric|min:0',
-            'nama_hub' => 'required|string',
+            'keterangan' => 'nullable|string'
         ]);
 
-        DB::transaction(function () use ($request, $id) {
-            $stokLama = StokMasuk::findOrFail($id);
+        // 4. UPDATE DATA
+        $stokMasuk->update([
+            'barang_id' => $request->barang_id,
+            'jumlah_unit' => $request->jumlah_unit ?? 0,
+            'jumlah_berat' => $request->jumlah_berat ?? 0,
+            'keterangan' => $request->keterangan,
+        ]);
 
-            // 1. KEMBALIKAN STOK LAMA (Rollback)
-            // Kurangi stok di master barang sejumlah data lama sebelum diedit
-            $barangLama = Barang::find($stokLama->barang_id);
-            $barangLama->decrement('stok_ekor', $stokLama->jumlah_unit ?? 0);
-            $barangLama->decrement('stok_berat', $stokLama->jumlah_berat ?? 0);
+        return redirect()->route('stok-masuk.index')->with('success', 'Data Stok Masuk berhasil diperbarui!');
+    }
 
-            // 2. UPDATE DATA TRANSAKSI
-            $stokLama->update([
-                'barang_id' => $request->barang_id,
-                'tanggal_masuk' => $request->tanggal_masuk,
-                'jumlah_unit' => $request->jumlah_unit ?? 0,
-                'jumlah_berat' => $request->jumlah_berat ?? 0,
-                'nama_hub' => $request->nama_hub,
-                'keterangan' => $request->keterangan,
-            ]);
+    /**
+     * FUNGSI KHUSUS ADMIN: Memverifikasi Stok Datang
+     */
+    public function verify($id)
+    {
+        $stokMasuk = StokMasuk::findOrFail($id);
 
-            // 3. MASUKKAN STOK BARU
-            // Tambahkan stok master dengan angka/barang yang baru diinput
-            $barangBaru = Barang::find($request->barang_id);
-            $barangBaru->increment('stok_ekor', $request->jumlah_unit ?? 0);
-            $barangBaru->increment('stok_berat', $request->jumlah_berat ?? 0);
-        });
+        $stokMasuk->update([
+            'is_verified' => true,
+            'verified_by' => Auth::id(),
+            'verified_at' => now(),
+        ]);
 
-        return redirect()->route('stok_masuk.index')->with('success', 'Data stok berhasil diperbaiki dan saldo telah disesuaikan!');
+        return redirect()->back()->with('success', 'Stok Masuk dari supplier berhasil diverifikasi dan dikunci!');
     }
 }

@@ -16,8 +16,17 @@ class StokMasuk extends Model
         'jumlah_unit',  // Kolom EKOR di Sheets
         'jumlah_berat', // Kolom KG/LITER di Sheets
         'nama_hub',     // Contoh: MUNDU
-        'keterangan'
+        'keterangan',
+        'is_verified', 
+        'verified_by', 
+        'verified_at'
     ];
+
+    // Relasi ke User (Admin/Manajer yang verifikasi)
+    public function verifikator()
+    {
+        return $this->belongsTo(User::class, 'verified_by');
+    }
 
     public function barang()
     {

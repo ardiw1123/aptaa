@@ -54,6 +54,24 @@
                         </svg>
                         <span>Riwayat Penjualan</span>
                     </a>
+                    <a href="{{ route('monitor-stok.index') }}" class="flex items-center space-x-3 p-3 rounded-2xl {{ request()->routeIs('monitor-stok.index') ? 'bg-blue-50 text-blue-600 font-bold' : 'text-slate-500 hover:bg-blue-50 hover:text-blue-600 font-semibold' }} transition-all group">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:scale-110 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                        <span>Monitor Stok</span>
+                    </a>
+                @endif
+                @if(auth()->user()->role === 'tim_barang')
+                    <a href="{{ route('cek-stok.create') }}" class="flex items-center space-x-3 p-3 rounded-2xl {{ request()->routeIs('cek-stok.create') ? 'bg-blue-50 text-blue-600 font-bold' : 'text-slate-500 hover:bg-blue-50 hover:text-blue-600 font-semibold' }} transition-all group">
+                        <span>Input Data Stok</span>
+                    </a>
+                    <a href="{{ route('cek-stok.index') }}" class="flex items-center space-x-3 p-3 rounded-2xl {{ request()->routeIs('cek-stok.index') ? 'bg-blue-50 text-blue-600 font-bold' : 'text-slate-500 hover:bg-blue-50 hover:text-blue-600 font-semibold' }} transition-all group">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:scale-110 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                        </svg>
+                        <span>Riwayat Cek Fisik</span>
+                    </a>
                 @endif
                 </nav>
             <div class="p-6 border-t border-slate-100">

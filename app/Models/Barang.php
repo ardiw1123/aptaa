@@ -18,6 +18,18 @@ class Barang extends Model
         'stok_berat'    // Saldo jumlah berat/volume
     ];
 
+    // Relasi ke semua riwayat cek stok
+    public function cekStoks()
+    {
+        return $this->hasMany(CekStok::class);
+    }
+
+    // Relasi KHUSUS mengambil hasil cek fisik yang PALING TERBARU
+    public function latestCekStok()
+    {
+        return $this->hasOne(CekStok::class)->latestOfMany('tanggal_cek');
+    }
+
     public function stokMasuks()
     {
         return $this->hasMany(StokMasuk::class);
