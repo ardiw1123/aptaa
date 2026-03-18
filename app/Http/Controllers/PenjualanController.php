@@ -23,7 +23,7 @@ class PenjualanController extends Controller
                          ->orderBy('nama_barang', 'asc')
                          ->get();
                          
-        return view('dashboard.penjualan-create', compact('barangs'));
+        return view('fitur.Admin.penjualan-create', compact('barangs'));
     }
 
     /**
@@ -49,7 +49,7 @@ class PenjualanController extends Controller
         // Gunakan pagination biar halaman nggak berat kalau data ribuan
         $penjualans = $query->paginate(20)->withQueryString();
 
-        return view('dashboard.penjualan-index', compact('penjualans', 'totalPendapatan'));
+        return view('fitur.Admin.penjualan-index', compact('penjualans', 'totalPendapatan'));
     }
     
     /**

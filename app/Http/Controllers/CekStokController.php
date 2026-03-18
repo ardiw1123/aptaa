@@ -25,7 +25,7 @@ class CekStokController extends Controller
         // Jangan lupa tambahkan withQueryString()
         $cekStoks = $query->paginate(20)->withQueryString();
 
-        return view('dashboard.cek-stok-index', compact('cekStoks'));
+        return view('fitur.Tim Barang.cek-stok-index', compact('cekStoks'));
     }
     
     /**
@@ -44,7 +44,7 @@ class CekStokController extends Controller
             return redirect()->route('cek-stok.index')->with('error', 'Akses ditolak! Anda hanya bisa mengedit data yang Anda input sendiri.');
         }
 
-        return view('dashboard.cek-stok-edit', compact('cekStok'));
+        return view('fitur.Tim Barang.cek-stok-edit', compact('cekStok'));
     }
 
     /**
@@ -86,7 +86,7 @@ class CekStokController extends Controller
     {
         // Ambil semua barang untuk masuk ke dropdown pilihan
         $barangs = Barang::orderBy('nama_barang', 'asc')->get();
-        return view('dashboard.cek-stok-create', compact('barangs'));
+        return view('fitur.Tim Barang.cek-stok-create', compact('barangs'));
     }
 
     /**

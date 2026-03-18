@@ -16,13 +16,13 @@ class StokMasukController extends Controller
         // latest() berfungsi untuk mengurutkan dari data yang paling baru diinput
         $riwayatStok = StokMasuk::with(['barang', 'user'])->latest()->get();
         
-        return view('dashboard.riwayat_stok', compact('riwayatStok'));
+        return view('fitur.Tim Gudang.riwayat_stok', compact('riwayatStok'));
     }
     public function create()
     {
         // Mengambil data barang untuk pilihan di form
         $barangs = Barang::orderBy('nama_barang', 'asc')->get();
-        return view('dashboard.stok_masuk', compact('barangs'));
+        return view('fitur.Tim Gudang.stok_masuk', compact('barangs'));
     }
 
     public function store(Request $request)
@@ -73,7 +73,7 @@ class StokMasukController extends Controller
 
         // 3. KALAU AMAN, TAMPILIN FORM
         $barangs = Barang::orderBy('nama_barang', 'asc')->get();
-        return view('dashboard.stok-masuk-edit', compact('stokMasuk', 'barangs'));
+        return view('fitur.Tim Gudang.stok-masuk-edit', compact('stokMasuk', 'barangs'));
     }
 
     /**

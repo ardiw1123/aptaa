@@ -32,7 +32,10 @@
                 
                 @if(auth()->user()->role === 'tim_gudang')
                 <a href="{{ route('stok_masuk.create') }}" class="flex items-center space-x-3 p-3 rounded-2xl {{ request()->routeIs('stok_masuk.create') ? 'bg-blue-50 text-blue-600 font-bold' : 'text-slate-500 hover:bg-slate-50 font-semibold' }} transition-all">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                    </svg>
+
                     <span>Input Stok Masuk</span>
                 </a>
 
@@ -43,9 +46,10 @@
                 @endif
                 @if(auth()->user()->role === 'admin')
                     <a href="{{ route('penjualan.create') }}" class="flex items-center space-x-3 p-3 rounded-2xl {{ request()->routeIs('penjualan.create') ? 'bg-blue-50 text-blue-600 font-bold' : 'text-slate-500 hover:bg-slate-50 font-semibold' }} transition-all">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                         </svg>
+
                         <span>Input Penjualan</span>
                     </a>
                     <a href="{{ route('penjualan.index') }}" class="flex items-center space-x-3 p-3 rounded-2xl {{ request()->routeIs('penjualan.index') ? 'bg-blue-50 text-blue-600 font-bold' : 'text-slate-500 hover:bg-slate-50 font-semibold' }} transition-all">
@@ -64,6 +68,10 @@
                 @endif
                 @if(auth()->user()->role === 'tim_barang')
                     <a href="{{ route('cek-stok.create') }}" class="flex items-center space-x-3 p-3 rounded-2xl {{ request()->routeIs('cek-stok.create') ? 'bg-blue-50 text-blue-600 font-bold' : 'text-slate-500 hover:bg-blue-50 hover:text-blue-600 font-semibold' }} transition-all group">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                        </svg>
+
                         <span>Input Data Stok</span>
                     </a>
                     <a href="{{ route('cek-stok.index') }}" class="flex items-center space-x-3 p-3 rounded-2xl {{ request()->routeIs('cek-stok.index') ? 'bg-blue-50 text-blue-600 font-bold' : 'text-slate-500 hover:bg-blue-50 hover:text-blue-600 font-semibold' }} transition-all group">
@@ -71,6 +79,20 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                         </svg>
                         <span>Riwayat Cek Fisik</span>
+                    </a>
+                @endif
+                @if(auth()->user()->role == 'tim_marketing')
+                    <a href="{{ route('pesanan-pelanggan.create') }}" class="flex items-center space-x-3 p-3 rounded-2xl {{ request()->routeIs('pesanan-pelanggan.create') ? 'bg-blue-50 text-blue-600 font-bold' : 'text-slate-500 hover:bg-blue-50 hover:text-blue-600 font-semibold' }} transition-all group">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                        </svg>
+                        <span>Input Pesanan Pelanggan</span>
+                    </a>
+                    <a href="{{ route('pesanan-pelanggan.index') }}" class="flex items-center space-x-3 p-3 rounded-2xl {{ request()->routeIs('pesanan-pelanggan.index') ? 'bg-blue-50 text-blue-600 font-bold' : 'text-slate-500 hover:bg-blue-50 hover:text-blue-600 font-semibold' }} transition-all group">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:scale-110 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                        </svg>
+                        <span>Daftar Pesanan Pelanggan</span>
                     </a>
                 @endif
                 </nav>

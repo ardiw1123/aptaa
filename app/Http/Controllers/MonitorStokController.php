@@ -20,6 +20,6 @@ class MonitorStokController extends Controller
                         ->take(5)
                         ->get();
 
-        return view('dashboard.monitor-stok', compact('barangs', 'stokMasuks'));
+        return view('fitur.Admin.monitor-stok', compact('barangs', 'stokMasuks'));
     }
 }

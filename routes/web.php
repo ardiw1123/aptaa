@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PesananPelangganController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\StokMasukController;
 use App\Http\Controllers\PenjualanController;
@@ -51,5 +52,14 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/cek-stok/{id}/edit', [CekStokController::class, 'edit'])->name('cek-stok.edit');
     Route::put('/cek-stok/{id}', [CekStokController::class, 'update'])->name('cek-stok.update');
     Route::patch('/cek-stok/{id}/verify', [CekStokController::class, 'verify'])->name('cek-stok.verify');
+});
+
+Route::middleware(['auth'])->group(function(){
+    Route::get('/pesanan-pelanggan/buat', [PesananPelangganController::class, 'create'])->name('pesanan-pelanggan.create');
+    Route::post('/pesanan-pelanggan/buat', [PesananPelangganController::class, 'store'])->name('pesanan-pelanggan.store');
+    Route::get('/pesanan-pelanggan', [PesananPelangganController::class, 'index'])->name('pesanan-pelanggan.index');
+    Route::patch('/pesanan-pelanggan/{id}/kirim', [PesananPelangganController::class, 'kirim'])->name('pesanan-pelanggan.kirim');
+    Route::get('/pesanan-pelanggan/{id}/edit', [PesananPelangganController::class, 'edit'])->name('pesanan-pelanggan.edit');
+    Route::put('/pesanan-pelanggan/{id}', [PesananPelangganController::class, 'update'])->name('pesanan-pelanggan.update');
 });
 require __DIR__.'/auth.php';
