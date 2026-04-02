@@ -7,6 +7,7 @@ use App\Http\Controllers\StokMasukController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\CekStokController;
 use App\Http\Controllers\MonitorStokController;
+use App\Http\Controllers\PermintaanStokController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,6 +44,13 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/penjualan/kasir', [PenjualanController::class, 'create'])->name('penjualan.create');
     Route::post('/penjualan/kasir', [PenjualanController::class, 'store'])->name('penjualan.store');
     Route::get('/monitor-stok', [MonitorStokController::class, 'index'])->name('monitor-stok.index');
+    Route::get('/permintaan-stok/buat', [PermintaanStokController::class, 'create'])->name('permintaan-stok.create');
+    Route::post('/permintaan-stok/buat', [PermintaanStokController::class, 'store'])->name('permintaan-stok.store');
+    Route::get('/permintaan-stok', [PermintaanStokController::class, 'index'])->name('permintaan-stok.index');
+    Route::get('/permintaan-stok/{id}/edit', [PermintaanStokController::class, 'edit'])->name('permintaan-stok.edit');
+    Route::put('/permintaan-stok/{id}', [PermintaanStokController::class, 'update'])->name('permintaan-stok.update');
+    Route::get('/permintaan-stok/{id}/pdf', [PermintaanStokController::class, 'downloadPdf'])->name('permintaan-stok.pdf');
+    Route::get('/permintaan-stok/{id}/excel', [PermintaanStokController::class, 'downloadExcel'])->name('permintaan-stok.excel');
 });
 
 Route::middleware(['auth'])->group(function(){
