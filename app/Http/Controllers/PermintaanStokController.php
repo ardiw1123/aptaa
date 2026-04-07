@@ -185,4 +185,52 @@ class PermintaanStokController extends Controller
         $po = PermintaanStok::findOrFail($id);
         return Excel::download(new PermintaanStokExport($id), 'PO-'.$po->no_request.'.xlsx');
     }
+
+    /**
+     * HALAMAN MANAJER: Daftar Overview PO (Tabel)
+     */
+    public function managerIndex()
+    {
+        // Nggak perlu load detail barang di sini biar query lebih ringan
+        $permintaans = PermintaanStok::with(['pembuat', 'manajer'])
+                        ->orderByRaw("FIELD(status, 'pending', 'approved', 'rejected')")
+                        ->latest('tanggal_request')
+                        ->paginate(15);
+
+        return view('fitur.Manajer.permintaan-stok-index', compact('permintaans'));
+    }
+
+    /**
+     * HALAMAN MANAJER: Detail & Verifikasi Surat PO
+     */
+    public function show($id)
+    {
+        // Di sini baru kita load detail barangnya
+        $po = PermintaanStok::with(['pembuat', 'manajer', 'detailPermintaan.barang'])->findOrFail($id);
+        
+        return view('fitur.Manajer.permintaan-stok-show', compact('po'));
+    }
+
+    // (Fungsi verify() yang sebelumnya lo copy biarin aja, udah bener)
+
+    /**
+     * PROSES VERIFIKASI: ACC atau Tolak
+     */
+    public function verify(Request $request, $id)
+    {
+        $po = PermintaanStok::findOrFail($id);
+        
+        $request->validate([
+            'status' => 'required|in:approved,rejected',
+        ]);
+
+        $po->update([
+            'status' => $request->status,
+            'verified_by' => Auth::id(),
+            'verified_at' => now(),
+        ]);
+
+        $pesan = $request->status == 'approved' ? 'disetujui' : 'ditolak';
+        return redirect()->back()->with('success', "Permintaan Stok {$po->no_request} berhasil {$pesan}.");
+    }
 }

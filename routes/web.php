@@ -70,4 +70,12 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/pesanan-pelanggan/{id}/edit', [PesananPelangganController::class, 'edit'])->name('pesanan-pelanggan.edit');
     Route::put('/pesanan-pelanggan/{id}', [PesananPelangganController::class, 'update'])->name('pesanan-pelanggan.update');
 });
+
+Route::middleware(['auth'])->group(function(){
+    Route::get('/manager/permintaan-stok', [PermintaanStokController::class, 'managerIndex'])->name('manager.permintaan-stok.index');
+    Route::patch('/manager/permintaan-stok/{id}/verify', [PermintaanStokController::class, 'verify'])->name('manager.permintaan-stok.verify');
+    Route::get('/manager/permintaan-stok', [PermintaanStokController::class, 'managerIndex'])->name('manager.permintaan-stok.index');
+    Route::get('/manager/permintaan-stok/{id}', [PermintaanStokController::class, 'show'])->name('manager.permintaan-stok.show'); // TAMBAHAN BARU
+    Route::patch('/manager/permintaan-stok/{id}/verify', [PermintaanStokController::class, 'verify'])->name('manager.permintaan-stok.verify');
+});
 require __DIR__.'/auth.php';
