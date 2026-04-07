@@ -20,8 +20,8 @@ class Penjualan extends Model
     }
 
     // 1 Penjualan punya BANYAK Detail Penjualan
-    public function detailPenjualans()
+    public function detailPenjualan()
     {
-        return $this->hasMany(DetailPenjualan::class);
+        return $this->hasMany(DetailPenjualan::class, 'penjualan_id');
     }
 }

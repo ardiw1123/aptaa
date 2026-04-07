@@ -32,7 +32,7 @@ class PenjualanController extends Controller
     public function index(Request $request)
     {
         // Siapkan query dasar, urutkan dari yang paling baru
-        $query = Penjualan::with(['admin', 'detailPenjualans'])->latest('tanggal_transaksi')->latest('id');
+        $query = Penjualan::with(['admin', 'detailPenjualan'])->latest('tanggal_transaksi')->latest('id');
 
         // Logika Filter Rentang Tanggal
         if ($request->filled('start_date') && $request->filled('end_date')) {

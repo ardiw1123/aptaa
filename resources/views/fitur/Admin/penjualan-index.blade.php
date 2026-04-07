@@ -70,7 +70,7 @@
                         </td>
                         <td class="px-6 py-4">
                             <span class="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-bold rounded-full">
-                                {{ $trx->detailPenjualans->count() }} Jenis
+                                {{ $trx->detailPenjualan->count() }} Jenis
                             </span>
                         </td>
                         <td class="px-6 py-4 text-right">

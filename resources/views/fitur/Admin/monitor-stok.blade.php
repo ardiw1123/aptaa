@@ -3,23 +3,20 @@
 @section('content')
 <div class="max-w-7xl mx-auto py-6 md:py-10">
     
+    <div class="max-w-7xl mx-auto py-6 md:py-10 px-4">
     <div class="mb-8">
         <h1 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Monitor Ketersediaan Stok</h1>
-        <p class="text-slate-500 mt-1 text-sm">Pantau ketersediaan barang secara real-time dan log pengiriman terbaru.</p>
+        <p class="text-slate-500 mt-1 text-sm">Pantau ketersediaan barang secara real-time di gudang utama.</p>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        <div class="lg:col-span-2 space-y-6">
-            <div class="bg-white rounded-[2rem] shadow-xl shadow-blue-200/20 border border-white overflow-hidden">
-                <div class="px-8 py-6 border-b border-slate-50 bg-slate-50/50 flex items-center justify-between">
-                    <h3 class="font-bold text-slate-800 flex items-center uppercase tracking-widest text-xs">
-                        <span class="h-2 w-2 bg-blue-600 rounded-full mr-3"></span> Stok Tersedia (Master)
-                    </h3>
-                </div>
+    <div class="bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden p-6 md:p-8">
+        <div class="flex items-center gap-3 mb-6">
+            <span class="h-3 w-3 bg-blue-600 rounded-full"></span>
+            <h3 class="font-bold text-slate-800 uppercase tracking-widest text-xs">Stok Tersedia (Master)</h3>
+        </div>
                 
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
+                    <table class="w-full text-left">
                         <thead>
                             <tr class="bg-white text-slate-400 text-[10px] uppercase tracking-widest border-b border-slate-100">
                                 <th class="px-6 py-4 font-bold">Produk (SKU)</th>
@@ -94,58 +91,6 @@
                             @endforeach
                         </tbody>
                     </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="lg:col-span-1 space-y-6">
-            <div class="bg-slate-900 rounded-[2rem] shadow-xl shadow-slate-900/20 border border-slate-800 p-8 text-white">
-                <h3 class="font-bold text-white mb-6 flex items-center uppercase tracking-widest text-xs">
-                    <span class="h-2 w-2 bg-green-400 rounded-full mr-3 animate-ping absolute"></span>
-                    <span class="h-2 w-2 bg-green-400 rounded-full mr-3 relative"></span> 
-                    Stok Datang Terbaru
-                </h3>
-
-                <div class="space-y-6">
-                    @forelse($stokMasuks as $masuk)
-                    <div class="flex items-center justify-between border-b border-slate-800 pb-4 last:border-0 last:pb-0">
-                        <div class="flex items-start space-x-4">
-                            <div class="p-2 bg-slate-800 rounded-xl text-slate-400">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>
-                            </div>
-                            <div>
-                                <p class="text-sm font-bold text-blue-300">{{ $masuk->barang->nama_barang }}</p>
-                                <p class="text-xs text-slate-400 mt-1">
-                                    Masuk: <span class="text-white font-semibold">{{ $masuk->jumlah_berat > 0 ? $masuk->jumlah_berat.' Kg' : $masuk->jumlah_unit.' Ekor' }}</span>
-                                </p>
-                                <p class="text-[10px] text-slate-500 mt-1 uppercase tracking-wider">
-                                    Oleh {{ explode(' ', $masuk->user->name)[0] }} • {{ \Carbon\Carbon::parse($masuk->created_at)->diffForHumans() }}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="ml-4">
-                            @if($masuk->is_verified)
-                                <span class="px-2 py-1 bg-green-500/20 text-green-400 border border-green-500/30 text-[9px] font-bold rounded flex items-center gap-1 uppercase tracking-widest" title="ACC oleh {{ $masuk->verifikator->name ?? 'Admin' }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
-                                    ACC
-                                </span>
-                            @else
-                                <form action="{{ route('stok-masuk.verify', $masuk->id) }}" method="POST" onsubmit="return confirm('Verifikasi stok masuk ini?');">
-                                    @csrf
-                                    @method('PATCH')
-                                    <button type="submit" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold rounded shadow-md transition-colors uppercase tracking-widest">
-                                        Verifikasi
-                                    </button>
-                                </form>
-                            @endif
-                        </div>
-                    </div>
-                    @empty
-                    <div class="text-center py-6">
-                        <p class="text-slate-500 text-sm">Belum ada stok masuk hari ini.</p>
-                    </div>
-                    @endforelse
                 </div>
             </div>
         </div>

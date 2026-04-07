@@ -47,10 +47,10 @@ class StokMasukController extends Controller
                 'keterangan' => $request->keterangan,
             ]);
 
-            // 2. Update saldo stok di tabel master barangs
-            $barang = Barang::find($request->barang_id);
-            $barang->increment('stok_ekor', $request->jumlah_unit ?? 0);
-            $barang->increment('stok_berat', $request->jumlah_berat ?? 0);
+            // // 2. Update saldo stok di tabel master barangs
+            // $barang = Barang::find($request->barang_id);
+            // $barang->increment('stok_ekor', $request->jumlah_unit ?? 0);
+            // $barang->increment('stok_berat', $request->jumlah_berat ?? 0);
         });
 
         return redirect()->back()->with('success', 'Data stok berhasil disimpan!');
@@ -120,6 +120,11 @@ class StokMasukController extends Controller
             'verified_by' => Auth::id(),
             'verified_at' => now(),
         ]);
+
+        // 2. Update saldo stok di tabel master barangs
+            $barang = Barang::find($stokMasuk->barang_id);
+            $barang->increment('stok_ekor', $stokMasuk->jumlah_unit ?? 0);
+            $barang->increment('stok_berat', $stokMasuk->jumlah_berat ?? 0);
 
         return redirect()->back()->with('success', 'Stok Masuk dari supplier berhasil diverifikasi dan dikunci!');
     }

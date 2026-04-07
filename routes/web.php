@@ -7,7 +7,9 @@ use App\Http\Controllers\StokMasukController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\CekStokController;
 use App\Http\Controllers\MonitorStokController;
+use App\Http\Controllers\LaporanPenjualanController;
 use App\Http\Controllers\PermintaanStokController;
+use App\Http\Controllers\AdminStokController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -51,6 +53,8 @@ Route::middleware(['auth'])->group(function (){
     Route::put('/permintaan-stok/{id}', [PermintaanStokController::class, 'update'])->name('permintaan-stok.update');
     Route::get('/permintaan-stok/{id}/pdf', [PermintaanStokController::class, 'downloadPdf'])->name('permintaan-stok.pdf');
     Route::get('/permintaan-stok/{id}/excel', [PermintaanStokController::class, 'downloadExcel'])->name('permintaan-stok.excel');
+    Route::get('/admin/stok-masuk', [AdminStokController::class, 'indexStokMasuk'])->name('admin.stok-masuk.index');
+    Route::get('/admin/stok-masuk/{tanggal}', [AdminStokController::class, 'detailStokMasuk'])->name('admin.stok-masuk.detail');
 });
 
 Route::middleware(['auth'])->group(function(){
@@ -77,5 +81,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/manager/permintaan-stok', [PermintaanStokController::class, 'managerIndex'])->name('manager.permintaan-stok.index');
     Route::get('/manager/permintaan-stok/{id}', [PermintaanStokController::class, 'show'])->name('manager.permintaan-stok.show'); // TAMBAHAN BARU
     Route::patch('/manager/permintaan-stok/{id}/verify', [PermintaanStokController::class, 'verify'])->name('manager.permintaan-stok.verify');
+    Route::get('/manager/laporan-penjualan', [LaporanPenjualanController::class, 'index'])->name('manager.laporan.index');
+    Route::get('/manager/laporan-penjualan/{id}', [LaporanPenjualanController::class, 'show'])->name('manager.laporan.show');
 });
 require __DIR__.'/auth.php';
