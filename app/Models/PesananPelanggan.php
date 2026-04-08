@@ -22,6 +22,6 @@ class PesananPelanggan extends Model
     // Relasi ke Tabel Detail (1 Pesanan punya BANYAK detail barang)
     public function detailPesanan()
     {
-        return $this->hasMany(DetailPesananPelanggan::class);
+        return $this->hasMany(DetailPesananPelanggan::class, 'pesanan_pelanggan_id');
     }
 }

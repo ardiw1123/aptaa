@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use App\Models\StokMasuk;
+use App\Models\LogAktivitas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -52,7 +53,12 @@ class StokMasukController extends Controller
             // $barang->increment('stok_ekor', $request->jumlah_unit ?? 0);
             // $barang->increment('stok_berat', $request->jumlah_berat ?? 0);
         });
-
+        // Log aktivitas
+        LogAktivitas::create([
+            'user_id' => Auth::id(),
+            'modul' => 'Gudang',
+            'aktivitas' => 'Menambahkan catatan barang baru masuk ke gudang'
+        ]);
         return redirect()->back()->with('success', 'Data stok berhasil disimpan!');
     }
     /**
@@ -70,7 +76,6 @@ class StokMasukController extends Controller
         if ($stokMasuk->is_verified) {
             return redirect()->route('stok-masuk.index')->with('error', 'Akses ditolak! Data ini sudah diverifikasi Admin dan tidak bisa diubah lagi.');
         }
-
         // 3. KALAU AMAN, TAMPILIN FORM
         $barangs = Barang::orderBy('nama_barang', 'asc')->get();
         return view('fitur.Tim Gudang.stok-masuk-edit', compact('stokMasuk', 'barangs'));
@@ -105,27 +110,41 @@ class StokMasukController extends Controller
             'keterangan' => $request->keterangan,
         ]);
 
+        LogAktivitas::create([
+            'user_id' => Auth::id(),
+            'modul' => 'Gudang',
+            'aktivitas' => 'Memperbarui catatan data stok masuk'
+        ]);
+
         return redirect()->route('stok-masuk.index')->with('success', 'Data Stok Masuk berhasil diperbarui!');
     }
 
     /**
      * FUNGSI KHUSUS ADMIN: Memverifikasi Stok Datang
      */
-    public function verify($id)
-    {
-        $stokMasuk = StokMasuk::findOrFail($id);
+    // public function verify($id)
+    // {
+    //     $stokMasuk = StokMasuk::findOrFail($id);
 
-        $stokMasuk->update([
-            'is_verified' => true,
-            'verified_by' => Auth::id(),
-            'verified_at' => now(),
-        ]);
+    //     $stokMasuk->update([
+    //         'is_verified' => true,
+    //         'verified_by' => Auth::id(),
+    //         'verified_at' => now(),
+    //     ]);
 
-        // 2. Update saldo stok di tabel master barangs
-            $barang = Barang::find($stokMasuk->barang_id);
-            $barang->increment('stok_ekor', $stokMasuk->jumlah_unit ?? 0);
-            $barang->increment('stok_berat', $stokMasuk->jumlah_berat ?? 0);
+    //     // 2. Update saldo stok di tabel master barangs
+    //         $barang = Barang::find($stokMasuk->barang_id);
+    //         $barang->increment('stok_ekor', $stokMasuk->jumlah_unit ?? 0);
+    //         $barang->increment('stok_berat', $stokMasuk->jumlah_berat ?? 0);
+        
+    //     // log aktivitas
+        
+    //     LogAktivitas::create([
+    //         'user_id' => Auth::id(),
+    //         'modul' => 'Gudang',
+    //         'aktivitas' => 'Memverifikasi stok pada tanggal: '. $stokMasuk->tanggal_masuk
+    //     ]);
 
-        return redirect()->back()->with('success', 'Stok Masuk dari supplier berhasil diverifikasi dan dikunci!');
-    }
+    //     return redirect()->back()->with('success', 'Stok Masuk dari supplier berhasil diverifikasi dan dikunci!');
+    // }
 }

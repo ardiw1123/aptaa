@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use App\Models\PesananPelanggan;
 use App\Models\DetailPesananPelanggan;
+use App\Models\LogAktivitas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -62,7 +63,12 @@ class PesananPelangganController extends Controller
                 ]);
             }
         }
-
+        // log aktivitas
+        LogAktivitas::create([
+            'user_id' => Auth::id(),
+            'modul' => 'Penjualan',
+            'aktivitas' => 'Menginput data pesanan pelanggan'
+        ]);
         // Kembali ke form sambil bawa pesan sukses
         return redirect()->back()->with('success', 'Pesanan pelanggan berhasil disimpan sebagai DRAFT!');
     }
@@ -99,6 +105,13 @@ class PesananPelangganController extends Controller
             'is_sent' => true
         ]);
 
+        // log aktivitas
+        LogAktivitas::create([
+            'user_id' => Auth::id(),
+            'modul' => 'Penjualan',
+            'aktivitas' => 'Mengirim data pesanan pelanggan ke admin'
+        ]);
+
         return redirect()->back()->with('success', 'Data pesanan ('.$pesanan->no_pesanan.') berhasil dikirim ke Admin dan telah dikunci!');
     }
 
@@ -126,7 +139,6 @@ class PesananPelangganController extends Controller
                 'berat' => $detail->jumlah_berat
             ];
         }
-
         return view('fitur.Tim Marketing.pesanan-pelanggan-edit', compact('pesanan', 'barangs', 'keranjangLama'));
     }
 
@@ -173,7 +185,12 @@ class PesananPelangganController extends Controller
                 ]);
             }
         }
-
+        // log aktivitas
+        LogAktivitas::create([
+            'user_id' => Auth::id(),
+            'modul' => 'Penjualan',
+            'aktivitas' => 'Mengedit data pesanan pelanggan'
+        ]);
         return redirect()->route('pesanan-pelanggan.index')->with('success', 'Draft Pesanan ('.$pesanan->no_pesanan.') berhasil diperbarui!');
     }
 }

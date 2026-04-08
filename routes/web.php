@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return auth::check()
-    ? redirect()->route('dashboard')
+    ? redirect()->route('pegawai.dashboard')
     : redirect()->route('login');
 });
 
@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
+// tim gudang
 Route::middleware(['auth'])->group(function () {
     Route::get('/stok_masuk', [StokMasukController::class, 'create'])->name('stok_masuk.create');
     Route::post('/stok_masuk', [StokMasukController::class, 'store'])->name('stok_masuk.store');
@@ -39,8 +39,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/stok_masuk/{id}/edit', [StokMasukController::class, 'edit'])->name('stok_masuk.edit');
     Route::put('/stok_masuk/{id}', [StokMasukController::class, 'update'])->name('stok_masuk.update');
     Route::patch('/stok-masuk/{id}/verify', [StokMasukController::class, 'verify'])->name('stok-masuk.verify');
+    Route::post('/admin/stok-masuk/acc/{id}', [AdminStokController::class, 'accStok'])->name('admin.stok-masuk.acc');
 });
-
+// Admin
 Route::middleware(['auth'])->group(function (){
     Route::get('/penjualan/riwayat', [PenjualanController::class, 'index'])->name('penjualan.index');
     Route::get('/penjualan/kasir', [PenjualanController::class, 'create'])->name('penjualan.create');
@@ -55,8 +56,11 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/permintaan-stok/{id}/excel', [PermintaanStokController::class, 'downloadExcel'])->name('permintaan-stok.excel');
     Route::get('/admin/stok-masuk', [AdminStokController::class, 'indexStokMasuk'])->name('admin.stok-masuk.index');
     Route::get('/admin/stok-masuk/{tanggal}', [AdminStokController::class, 'detailStokMasuk'])->name('admin.stok-masuk.detail');
+    Route::get('/admin/pesanan-marketing', [AdminStokController::class, 'indexPesanan'])->name('admin.pesanan.index');
+    Route::get('/admin/pesanan-marketing/{id}', [AdminStokController::class, 'detailPesanan'])->name('admin.pesanan.detail');
 });
 
+// tim barang
 Route::middleware(['auth'])->group(function(){
     Route::get('/cek-stok/input', [CekStokController::class, 'create'])->name('cek-stok.create');
     Route::post('/cek-stok/input', [CekStokController::class, 'store'])->name('cek-stok.store');
@@ -66,6 +70,7 @@ Route::middleware(['auth'])->group(function(){
     Route::patch('/cek-stok/{id}/verify', [CekStokController::class, 'verify'])->name('cek-stok.verify');
 });
 
+// tim marketing
 Route::middleware(['auth'])->group(function(){
     Route::get('/pesanan-pelanggan/buat', [PesananPelangganController::class, 'create'])->name('pesanan-pelanggan.create');
     Route::post('/pesanan-pelanggan/buat', [PesananPelangganController::class, 'store'])->name('pesanan-pelanggan.store');
@@ -75,6 +80,7 @@ Route::middleware(['auth'])->group(function(){
     Route::put('/pesanan-pelanggan/{id}', [PesananPelangganController::class, 'update'])->name('pesanan-pelanggan.update');
 });
 
+// manajer
 Route::middleware(['auth'])->group(function(){
     Route::get('/manager/permintaan-stok', [PermintaanStokController::class, 'managerIndex'])->name('manager.permintaan-stok.index');
     Route::patch('/manager/permintaan-stok/{id}/verify', [PermintaanStokController::class, 'verify'])->name('manager.permintaan-stok.verify');
@@ -83,5 +89,11 @@ Route::middleware(['auth'])->group(function(){
     Route::patch('/manager/permintaan-stok/{id}/verify', [PermintaanStokController::class, 'verify'])->name('manager.permintaan-stok.verify');
     Route::get('/manager/laporan-penjualan', [LaporanPenjualanController::class, 'index'])->name('manager.laporan.index');
     Route::get('/manager/laporan-penjualan/{id}', [LaporanPenjualanController::class, 'show'])->name('manager.laporan.show');
+});
+
+// dashboard
+Route::middleware(['auth'])->group(function(){
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('pegawai.dashboard');
+    Route::post('/absen', [DashboardController::class, 'prosesAbsen'])->name('pegawai.absen.proses');
 });
 require __DIR__.'/auth.php';

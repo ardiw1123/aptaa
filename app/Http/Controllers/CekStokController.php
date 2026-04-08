@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use App\Models\CekStok;
+use App\Models\LogAktivitas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -76,6 +77,13 @@ class CekStokController extends Controller
             'catatan' => $request->catatan,
         ]);
 
+        // log aktivitas
+        LogAktivitas::create([
+            'user_id' => Auth::id(),
+            'modul' => 'Pengelolaan Stok',
+            'aktivitas' => 'Mengedit data ketersediaan stok'
+        ]);
+
         return redirect()->route('cek-stok.index')->with('success', 'Data Opname berhasil diperbarui!');
     }
     
@@ -121,6 +129,13 @@ class CekStokController extends Controller
             'catatan' => $request->catatan,
         ]);
 
+        // log aktivitas
+        LogAktivitas::create([
+            'user_id' => Auth::id(),
+            'modul' => 'Pengelolaan Stok',
+            'aktivitas' => 'Menginput data ketersediaan stok'
+        ]);
+
         return redirect()->back()->with('success', 'Data Cek Stok Fisik berhasil disimpan! Terima kasih sudah melakukan pengecekan.');
     }
     /**
@@ -135,6 +150,13 @@ class CekStokController extends Controller
             'is_verified' => true,
             'verified_by' => Auth::id(),
             'verified_at' => now(),
+        ]);
+
+        // log aktivitas
+        LogAktivitas::create([
+            'user_id' => Auth::id(),
+            'modul' => 'Pengelolaan Stok',
+            'aktivitas' => 'Memverifikasi data ketersediaan stok'
         ]);
 
         return redirect()->back()->with('success', 'Data Cek Fisik berhasil diverifikasi & dikunci!');

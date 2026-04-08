@@ -6,6 +6,7 @@ use App\Models\Barang;
 use App\Models\PermintaanStok;
 use App\Models\DetailPermintaanStok;
 use App\Models\DetailPesananPelanggan;
+use App\Models\LogAktivitas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -76,7 +77,12 @@ class PermintaanStokController extends Controller
                 ]);
             }
         }
-
+        // log aktivitas
+        LogAktivitas::create([
+            'user_id' => Auth::id(),
+            'modul' => 'Pengelolaan Stok',
+            'aktivitas' => 'Membuat data permintaan stok'
+        ]);
         return redirect()->back()->with('success', 'Permintaan Stok ('.$noRequest.') berhasil dibuat dan menunggu verifikasi Manajer!');
     }
 
@@ -168,7 +174,12 @@ class PermintaanStokController extends Controller
                 ]);
             }
         }
-
+        // log aktivitas
+        LogAktivitas::create([
+            'user_id' => Auth::id(),
+            'modul' => 'Pengelolaan Stok',
+            'aktivitas' => 'Mengedit data permintaan stok'
+        ]);
         return redirect()->route('permintaan-stok.index')->with('success', 'Data PO ('.$po->no_request.') berhasil direvisi!');
     }
 
@@ -177,12 +188,24 @@ class PermintaanStokController extends Controller
     {
         $po = PermintaanStok::with(['pembuat', 'manajer', 'detailPermintaan.barang'])->findOrFail($id);
         $pdf = Pdf::loadView('fitur.Admin.permintaan-stok-pdf', compact('po'));
+        // log aktivitas
+        LogAktivitas::create([
+            'user_id' => Auth::id(),
+            'modul' => 'Pengelolaan Stok',
+            'aktivitas' => 'Mengunduh data permintaan stok'
+        ]);
         return $pdf->download('PO-'.$po->no_request.'.pdf');
     }
     // download excell
     public function downloadExcel($id)
     {
         $po = PermintaanStok::findOrFail($id);
+        // log aktivitas
+        LogAktivitas::create([
+            'user_id' => Auth::id(),
+            'modul' => 'Pengelolaan Stok',
+            'aktivitas' => 'Mengunduh data permintaan stok'
+        ]);
         return Excel::download(new PermintaanStokExport($id), 'PO-'.$po->no_request.'.xlsx');
     }
 
@@ -231,6 +254,13 @@ class PermintaanStokController extends Controller
         ]);
 
         $pesan = $request->status == 'approved' ? 'disetujui' : 'ditolak';
+
+        // log aktivitas
+        LogAktivitas::create([
+            'user_id' => Auth::id(),
+            'modul' => 'Pengelolaan Stok',
+            'aktivitas' => 'Memverifikasi data permintaan stok'
+        ]);
         return redirect()->back()->with('success', "Permintaan Stok {$po->no_request} berhasil {$pesan}.");
     }
 }

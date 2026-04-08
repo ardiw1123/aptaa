@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use App\Models\Penjualan;
+use \App\Models\LogAktivitas;
 use App\Models\DetailPenjualan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -131,6 +132,12 @@ class PenjualanController extends Controller
             }
 
             $penjualan->update(['total_harga' => $totalHarga]);
+
+            LogAktivitas::create([
+            'user_id' => Auth::id(),
+            'modul' => 'Penjualan',
+            'aktivitas' => 'Membuat faktur penjualan baru'
+        ]);
         });
 
         return redirect()->back()->with('success', 'Transaksi berhasil disimpan!');

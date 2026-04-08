@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\StokMasuk; 
+use App\Models\Barang;
+use App\Models\LogAktivitas;
+use App\Models\PesananPelanggan;
+use App\Models\DetailPesananPelanggan;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 class AdminStokController extends Controller
@@ -16,13 +21,11 @@ class AdminStokController extends Controller
      */
     public function indexStokMasuk()
     {
-        // Kita langsung panggil kolom tanggal_masuk bawaan dari tabel lo
         $riwayatHarian = StokMasuk::select(
-                'tanggal_masuk', // Nggak perlu pakai DB::raw DATE() lagi
+                'tanggal_masuk', 
                 DB::raw('COUNT(id) as total_macam_barang'),
                 DB::raw('SUM(jumlah_unit) as total_ekor'),
                 DB::raw('SUM(jumlah_berat) as total_berat'),
-                // Berdasarkan screenshot lo, gue pake is_verified = 0 buat deteksi pending
                 DB::raw('SUM(CASE WHEN is_verified = 0 THEN 1 ELSE 0 END) as jumlah_pending')
             )
             ->groupBy('tanggal_masuk')
@@ -45,5 +48,59 @@ class AdminStokController extends Controller
         $tanggalFormat = Carbon::parse($tanggal)->format('d F Y');
 
         return view('fitur.Admin.stok-masuk-detail', compact('detailStok', 'tanggalFormat', 'tanggal'));
+    }
+
+    // acc stok masuk
+    public function accStok($id)
+{
+    $stokMasuk = StokMasuk::findOrFail($id);
+
+    if ($stokMasuk->is_verified == 1) {
+        $stokMasuk->update([
+            'is_verified' => true,
+            'verified_by' => Auth::id(),
+            'verified_at' => now(),
+        ]);
+    }
+
+    // 1. Ubah status stok masuk
+    $stokMasuk->update([
+        'is_verified' => 1
+    ]);
+
+    // 2. Tambahkan ke stok master barang
+    $barang = Barang::findOrFail($stokMasuk->barang_id);
+    $barang->increment('stok_ekor', $stokMasuk->jumlah_unit ?? 0);
+    $barang->increment('stok_berat', $stokMasuk->jumlah_berat ?? 0);
+
+    // 3. Catat Log Aktivitas 
+    LogAktivitas::create([
+        'user_id' => Auth::id(),
+        'modul' => 'Gudang',
+        'aktivitas' => 'Verifikasi stok masuk pada tanggal ' . $stokMasuk->tanggal_masuk 
+    ]);
+
+    return back()->with('success', 'Stok berhasil diverifikasi dan masuk ke Master Barang!');
+}
+
+// 1. HALAMAN UTAMA: Menampilkan 1 Baris = 1 No. Pesanan
+    public function indexPesanan()
+    {
+        // Tarik data pesanan, hitung sekalian ada berapa macam barang di dalamnya
+        $daftarPesanan = PesananPelanggan::with('marketing')
+                            ->withCount('detailPesanan as total_macam_barang')
+                            ->latest()
+                            ->paginate(10);
+
+        return view('fitur.Admin.pesanan-index', compact('daftarPesanan'));
+    }
+
+    // 2. HALAMAN DETAIL: Menampilkan rincian pesanan pas tombol diklik
+    public function detailPesanan($id)
+    {
+        // Tarik 1 pesanan spesifik beserta detail barangnya
+        $pesanan = PesananPelanggan::with(['marketing', 'detailPesanan.barang'])->findOrFail($id);
+
+        return view('fitur.Admin.pesanan-detail', compact('pesanan'));
     }
 }
