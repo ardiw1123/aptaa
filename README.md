@@ -24,7 +24,7 @@ Sistem ini membagi hak akses ke dalam beberapa peran (*Role*). Untuk mencoba fit
 * **Admin** | Email: `admin@aptaa.com` | Password: `admin123`
 * **Tim Marketing** | Email: `marketing@aptaa.com` | Password: `marketing123`
 * **Tim Gudang** | Email: `gudang@aptaa.com` | Password: `gudang123`
-* * **Tim Barang** | Email: `timbarang@aptaa.com` | Password: `timbarang123`
+* **Tim Barang** | Email: `timbarang@aptaa.com` | Password: `timbarang123`
 
 *(Catatan: Kredensial di atas adalah data sampel untuk keperluan uji coba).*
 
