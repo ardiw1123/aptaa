@@ -3,7 +3,7 @@
 @section('content')
 <div class="max-w-7xl mx-auto py-6 md:py-10">
     <div class="mb-8">
-        <h1 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Verifikasi Permintaan Stok</h1>
+        <h1 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Riwayat Permintaan Stok</h1>
         <p class="text-slate-500 mt-1 text-sm">Overview pengajuan barang dari Admin. Klik "Review" untuk melihat detail.</p>
     </div>
 

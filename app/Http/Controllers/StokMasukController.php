@@ -78,7 +78,7 @@ class StokMasukController extends Controller
         }
         // 3. KALAU AMAN, TAMPILIN FORM
         $barangs = Barang::orderBy('nama_barang', 'asc')->get();
-        return view('fitur.Tim Gudang.stok-masuk-edit', compact('stokMasuk', 'barangs'));
+        return view('fitur.Tim Gudang.stok_masuk_edit', compact('stokMasuk', 'barangs'));
     }
 
     /**

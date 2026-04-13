@@ -10,6 +10,7 @@ use App\Http\Controllers\MonitorStokController;
 use App\Http\Controllers\LaporanPenjualanController;
 use App\Http\Controllers\PermintaanStokController;
 use App\Http\Controllers\AdminStokController;
+use App\Http\Controllers\BarangController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -89,6 +90,11 @@ Route::middleware(['auth'])->group(function(){
     Route::patch('/manager/permintaan-stok/{id}/verify', [PermintaanStokController::class, 'verify'])->name('manager.permintaan-stok.verify');
     Route::get('/manager/laporan-penjualan', [LaporanPenjualanController::class, 'index'])->name('manager.laporan.index');
     Route::get('/manager/laporan-penjualan/{id}', [LaporanPenjualanController::class, 'show'])->name('manager.laporan.show');
+    Route::get('/manajer/master-barang', [BarangController::class, 'index'])->name('manajer.barang.index');
+    Route::get('/manajer/master-barang/tambah', [BarangController::class, 'create'])->name('manajer.barang.create');
+    Route::post('/manajer/master-barang/simpan', [BarangController::class, 'store'])->name('manajer.barang.store');
+    Route::get('/manajer/master-barang/{id}/edit', [BarangController::class, 'edit'])->name('manajer.barang.edit');
+    Route::put('/manajer/master-barang/{id}', [BarangController::class, 'update'])->name('manajer.barang.update');
 });
 
 // dashboard

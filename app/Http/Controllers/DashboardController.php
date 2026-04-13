@@ -27,7 +27,7 @@ class DashboardController extends Controller
                                      ->whereMonth('tanggal', Carbon::now()->month)
                                      ->count();
 
-        // Ambil 5 Aktivitas terakhir pegawai ini
+        // Ambil 3 Aktivitas terakhir pegawai ini
         $logAktivitas = LogAktivitas::where('user_id', $user->id)
                                     ->latest()
                                     ->take(3)
@@ -46,31 +46,59 @@ class DashboardController extends Controller
         // Tangkap kordinat GPS dari frontend
         $koordinat = $request->latitude . ',' . $request->longitude;
 
-        /* * OPSIONAL: Di sini lo bisa masukin rumus "Haversine" buat ngecek jarak
-         * radius kordinat ini dengan kordinat Gudang/Kantor APTAA.
-         * Kalau kejauhan (> 100 meter), bisa di-return error "Anda di luar jangkauan kantor!"
-         */
-
         $absen = Absensi::where('user_id', $user->id)->where('tanggal', $hariIni)->first();
 
         if (!$absen) {
-            // BELUM ABSEN MASUK -> Bikin absen masuk
+            // === LOGIKA ABSEN MASUK & CEK KETERLAMBATAN ===
+            $batasJam = '08:00:00';
+            $isTerlambat = $waktuSekarang > $batasJam;
+            
+            $statusAbsen = 'Tepat Waktu';
+            $tipeNotif = 'success';
+            $pesanNotif = 'Berhasil Absen Masuk! Selamat bekerja!';
+
+            if ($isTerlambat) {
+                $statusAbsen = 'Terlambat';
+                
+                // Cek udah berapa kali terlambat bulan ini (sebelum absen hari ini)
+                $riwayatTerlambat = Absensi::where('user_id', $user->id)
+                                           ->whereMonth('tanggal', Carbon::now()->month)
+                                           ->where('status', 'Terlambat')
+                                           ->count();
+                
+                $sisaKuota = 3 - $riwayatTerlambat;
+
+                if ($sisaKuota > 0) {
+                    // Masih ada kuota (08:01 tapi baru terlambat ke-1 atau ke-2)
+                    $sisaSekarang = $sisaKuota - 1; // Dikurang 1 karena hari ini kepakai
+                    $tipeNotif = 'warning';
+                    $pesanNotif = "Anda Terlambat! Sisa toleransi bulan ini tinggal {$sisaSekarang} kali.";
+                } else {
+                    // Kuota habis (udah terlambat 3x atau lebih)
+                    $tipeNotif = 'error'; // Atau danger
+                    $pesanNotif = "Batas toleransi terlambat (3x) HABIS! Absen dicatat sebagai Pelanggaran Kedisiplinan.";
+                }
+            }
+
+            // Simpan data ke Database
             Absensi::create([
                 'user_id' => $user->id,
                 'tanggal' => $hariIni,
                 'jam_masuk' => $waktuSekarang,
                 'lokasi_masuk' => $koordinat,
-                'status' => ($waktuSekarang > '08:00:00') ? 'Terlambat' : 'Tepat Waktu' // Misal batas jam 8
+                'status' => $statusAbsen
             ]);
 
             // Catat Log
             LogAktivitas::create(['user_id' => $user->id, 'modul' => 'Kepegawaian', 'aktivitas' => 'Melakukan Absen Masuk']);
             
-            return back()->with('success', 'Berhasil Absen Masuk! Selamat bekerja!');
+            // Return dengan dinamis notifikasi (bisa success, warning, atau error)
+            return back()->with($tipeNotif, $pesanNotif);
+            
         } else {
-            // UDAH ABSEN MASUK -> Berarti sekarang Absen Keluar
+            // === LOGIKA ABSEN KELUAR ===
             if ($absen->jam_keluar) {
-                return back()->with('error', 'udah absen keluar hari ini!');
+                return back()->with('error', 'Anda sudah melakukan absen keluar hari ini!');
             }
 
             $absen->update([

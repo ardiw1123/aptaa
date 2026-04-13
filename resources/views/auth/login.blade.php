@@ -6,6 +6,7 @@
     <title>Login - {{ config('app.name') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="{{ asset('aptaa-favicon.png') }}" type="image/png">
     <style>
         body { font-family: 'Inter', sans-serif; }
     </style>

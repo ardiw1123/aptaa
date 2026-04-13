@@ -24,12 +24,12 @@
 
     <div class="bg-white/80 backdrop-blur-xl rounded-[2.5rem] shadow-2xl shadow-blue-200/40 border border-white overflow-hidden">
         
-        <div class="px-8 md:px-12 py-10 border-b border-blue-50 bg-gradient-to-r from-blue-50/50 to-white">
+        <div class="px-8 md:px-12 pt-10 pb-5 border-b border-blue-50 bg-gradient-to-r from-blue-50/50 to-white">
             <h1 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Form Pencatatan Stok Masuk</h1>
             <p class="text-slate-500 mt-1 text-sm leading-relaxed">Pindahkan data dari laporan fisik ke sistem digital APTAA secara akurat.</p>
         </div>
 
-        <form action="{{ route('stok_masuk.store') }}" method="POST" class="p-8 md:p-12 space-y-8">
+        <form action="{{ route('stok_masuk.store') }}" method="POST" class="px-8 md:px-12 pt-6 pb-12 space-y-8">
             @csrf
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">

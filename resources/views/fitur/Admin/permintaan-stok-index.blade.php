@@ -71,14 +71,23 @@
                                 <span class="text-[10px] text-slate-300 italic">Locked</span>
                                 @endif
                                 
-                                <button class="p-2 bg-slate-50 text-slate-300 rounded-lg border border-slate-100 cursor-not-allowed" title="Fitur Cetak Segera Hadir">
-                                    <a href="{{ route('permintaan-stok.pdf', $po->id) }}" class="p-2 bg-red-50 text-red-600 hover:bg-red-600 hover:text-white rounded-lg border border-red-200" title="PDF">
-                                        PDF
+                                <div class="flex items-center justify-center space-x-2">
+                                    <a href="{{ route('permintaan-stok.pdf', $po->id) }}" 
+                                    class="p-1.5 bg-red-50 text-red-600 hover:bg-red-600 hover:text-white rounded-lg transition-colors border border-red-200 shadow-sm" 
+                                    title="Download PDF">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                        </svg>
                                     </a>
-                                    <a href="{{ route('permintaan-stok.excel', $po->id) }}" class="p-2 bg-green-50 text-green-600 hover:bg-green-600 hover:text-white rounded-lg border border-green-200" title="Excel">
-                                        Excel
+
+                                    <a href="{{ route('permintaan-stok.excel', $po->id) }}" 
+                                    class="p-1.5 bg-green-50 text-green-600 hover:bg-green-600 hover:text-white rounded-lg transition-colors border border-green-200 shadow-sm" 
+                                    title="Download Excel">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                        </svg>
                                     </a>
-                                </button>
+                                </div>
                             </div>
                         </td>
                     </tr>

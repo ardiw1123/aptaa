@@ -1,12 +1,32 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-6xl mx-auto py-6 md:py-10 px-4">
+<div class="max-w-6xl mx-auto pt-2 pb-6 md:pt-4 md:pb-10 px-4">
     <div class="mb-8">
         <h1 class="text-3xl font-black text-slate-800">Halo, {{ Auth::user()->name }}!</h1>
         <p class="text-slate-500 mt-1">Siap untuk produktif hari ini? Jangan lupa absen ya.</p>
     </div>
 
+    @if(session('success'))
+    <div class="mb-8 bg-green-50 border border-green-200 text-green-700 px-6 py-4 rounded-2xl flex items-center shadow-sm animate-fade-in-down">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <span class="font-bold text-sm">{{ session('success') }}</span>
+    </div>
+    @endif
+
+    @if(session('warning'))
+    <div class="mb-8 bg-amber-50 border border-amber-200 text-amber-700 px-6 py-4 rounded-2xl flex items-center shadow-sm animate-fade-in-down">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+        <span class="font-bold text-sm">{{ session('warning') }}</span>
+    </div>
+    @endif
+
+    @if(session('error'))
+    <div class="mb-8 bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-2xl flex items-center shadow-sm animate-fade-in-down">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <span class="font-bold text-sm">{{ session('error') }}</span>
+    </div>
+    @endif
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         
         <div class="md:col-span-2 space-y-8">

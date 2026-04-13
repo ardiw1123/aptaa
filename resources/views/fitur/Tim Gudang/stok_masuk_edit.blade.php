@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-4xl mx-auto py-6 md:py-10"> {{-- py-10 ini yang bikin form lo nggak mepet atas-bawah --}}
+<div class="max-w-4xl mx-auto py-6 md:py-10"> {{-- py-10 ini yang bikin form nggak mepet atas-bawah --}}
     
     <div class="mb-8 flex items-center justify-between">
         <a href="{{ route('stok_masuk.index') }}" class="text-blue-600 hover:text-blue-800 flex items-center text-sm font-bold transition-colors bg-white/50 px-4 py-2 rounded-full shadow-sm backdrop-blur-sm border border-blue-50">
@@ -15,31 +15,31 @@
 
     <div class="bg-white/90 backdrop-blur-xl rounded-[2.5rem] shadow-2xl shadow-blue-200/40 border border-white overflow-hidden">
         
-        <div class="px-8 md:px-12 py-10 border-b border-amber-50 bg-gradient-to-r from-amber-50/50 to-white">
+        <div class="px-8 md:px-12 pt-10 border-b border-amber-50 bg-gradient-to-r from-amber-50/50 to-white">
             <div class="flex items-center space-x-3 mb-2">
                 <div class="p-2 bg-amber-100 text-amber-600 rounded-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
                 </div>
-                <h1 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Koreksi Data Stok</h1>
+                <h1 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">Update Data Stok Masuk</h1>
             </div>
             <p class="text-slate-500 text-sm leading-relaxed ml-11">Perbaiki kesalahan input. Sistem akan otomatis menyesuaikan ulang di data master.</p>
         </div>
 
-        <form action="{{ route('stok_masuk.update', $stok->id) }}" method="POST" class="p-8 md:p-12 space-y-8">
+        <form action="{{ route('stok_masuk.update', $stokMasuk->id) }}" method="POST" class="px-8 md:px-12 pt-6 pb-12 space-y-8">
             @csrf
             @method('PUT') {{-- WAJIB ADA: Penanda bahwa ini adalah proses UPDATE, bukan INSERT --}}
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
                     <label class="block text-sm font-bold text-slate-700 mb-3 ml-1 uppercase tracking-wider">Tanggal Masuk</label>
-                    <input type="date" name="tanggal_masuk" value="{{ old('tanggal_masuk', $stok->tanggal_masuk) }}"
+                    <input type="date" name="tanggal_masuk" value="{{ old('tanggal_masuk', $stokMasuk->tanggal_masuk) }}"
                         class="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-amber-500/10 focus:border-amber-500 outline-none transition-all font-medium text-slate-700">
                     @error('tanggal_masuk') <p class="mt-2 text-xs text-red-500 ml-1 font-bold">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
                     <label class="block text-sm font-bold text-slate-700 mb-3 ml-1 uppercase tracking-wider">Lokasi HUB</label>
-                    <input type="text" name="nama_hub" value="{{ old('nama_hub', $stok->nama_hub) }}"
+                    <input type="text" name="nama_hub" value="{{ old('nama_hub', $stokMasuk->nama_hub) }}"
                         class="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-amber-500/10 focus:border-amber-500 outline-none transition-all font-medium text-slate-700">
                     @error('nama_hub') <p class="mt-2 text-xs text-red-500 ml-1 font-bold">{{ $message }}</p> @enderror
                 </div>
@@ -51,7 +51,7 @@
                     <select name="barang_id" 
                         class="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-amber-500/10 focus:border-amber-500 outline-none appearance-none transition-all font-medium text-slate-700">
                         @foreach($barangs as $item)
-                            <option value="{{ $item->id }}" {{ (old('barang_id', $stok->barang_id) == $item->id) ? 'selected' : '' }}>
+                            <option value="{{ $item->id }}" {{ (old('barang_id', $stokMasuk->barang_id) == $item->id) ? 'selected' : '' }}>
                                 [{{ $item->sku }}] {{ $item->nama_barang }}
                             </option>
                         @endforeach
@@ -71,7 +71,7 @@
                 <div>
                     <label class="block text-sm font-bold text-slate-700 mb-3 ml-1 uppercase tracking-wider">Jumlah (EKOR)</label>
                     <div class="relative">
-                        <input type="number" name="jumlah_unit" step="0.01" value="{{ old('jumlah_unit', $stok->jumlah_unit) }}"
+                        <input type="number" name="jumlah_unit" step="0.01" value="{{ old('jumlah_unit', $stokMasuk->jumlah_unit) }}"
                             class="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-amber-500/10 focus:border-amber-500 outline-none transition-all font-bold text-lg text-slate-800">
                         <div class="absolute inset-y-0 right-6 flex items-center text-slate-400 font-bold text-xs uppercase tracking-widest">Ekor</div>
                     </div>
@@ -80,7 +80,7 @@
                 <div>
                     <label class="block text-sm font-bold text-slate-700 mb-3 ml-1 uppercase tracking-wider">Total Berat (KG / LITER)</label>
                     <div class="relative">
-                        <input type="number" name="jumlah_berat" step="0.01" value="{{ old('jumlah_berat', $stok->jumlah_berat) }}"
+                        <input type="number" name="jumlah_berat" step="0.01" value="{{ old('jumlah_berat', $stokMasuk->jumlah_berat) }}"
                             class="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-amber-500/10 focus:border-amber-500 outline-none transition-all font-bold text-lg text-amber-600">
                         <div class="absolute inset-y-0 right-6 flex items-center text-slate-400 font-bold text-xs uppercase tracking-widest">Kg/Ltr</div>
                     </div>
@@ -91,7 +91,7 @@
             <div>
                 <label class="block text-sm font-bold text-slate-700 mb-3 ml-1 uppercase tracking-wider">Catatan / Keterangan</label>
                 <textarea name="keterangan" rows="3"
-                    class="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-amber-500/10 focus:border-amber-500 outline-none transition-all font-medium text-slate-700">{{ old('keterangan', $stok->keterangan) }}</textarea>
+                    class="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-amber-500/10 focus:border-amber-500 outline-none transition-all font-medium text-slate-700">{{ old('keterangan', $stokMasuk->keterangan) }}</textarea>
             </div>
 
             <div class="pt-6 flex flex-col md:flex-row gap-4">
