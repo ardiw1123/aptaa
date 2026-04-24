@@ -25,7 +25,7 @@ class PermintaanStokSeeder extends Seeder
         $this->command->info('Data permintaan stok lama berhasil dibersihkan!');
 
         // 1. Ambil data User (Tim Gudang yang request & Manajer yang ACC)
-        $userGudang = User::where('role', 'tim_gudang')->first() ?? User::first();
+        $admin = User::where('role', 'admin')->first() ?? User::first();
         $userManajer = User::where('role', 'manajer')->first();
         $barangs = Barang::all();
 
@@ -49,24 +49,24 @@ class PermintaanStokSeeder extends Seeder
             // Format PO menyesuaikan UI: PO-YYYYMMDD-XXX
             $noRequest = 'PO-' . $tanggal->format('Ymd') . '-' . str_pad($i, 3, '0', STR_PAD_LEFT);
 
-            // Bikin probabilitas: 40% PENDING (biar bisa dites manajer), sisanya DI-ACC / DITOLAK
-            $statusOptions = ['PENDING', 'PENDING', 'DI-ACC', 'DI-ACC', 'DITOLAK'];
+            // Bikin probabilitas: 40% pending (biar bisa dites manajer), sisanya approved / rejected
+            $statusOptions = ['pending', 'pending', 'approved', 'approved', 'rejected'];
             $status = $statusOptions[array_rand($statusOptions)];
 
             $verifiedBy = null;
             $verifiedAt = null;
 
             // Kalau statusnya udah diproses, isi data verifikatornya
-            if ($status !== 'PENDING' && $userManajer) {
+            if ($status !== 'pending' && $userManajer) {
                 $verifiedBy = $userManajer->id;
-                // Di-ACC/Ditolak sekitar 1-2 hari setelah di-request
+                // approved/rejected sekitar 1-2 hari setelah di-request
                 $verifiedAt = (clone $tanggal)->addHours(rand(12, 48)); 
             }
 
             // 3. Insert ke tabel permintaan_stoks
             $permintaan = PermintaanStok::create([
                 'no_request' => $noRequest,
-                'user_id' => $userGudang->id,
+                'user_id' => $admin->id,
                 'tanggal_request' => $tanggal,
                 'keterangan' => $keteranganList[array_rand($keteranganList)],
                 'status' => $status,
