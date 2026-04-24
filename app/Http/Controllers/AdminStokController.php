@@ -41,7 +41,7 @@ class AdminStokController extends Controller
     {
         // Tarik semua rincian barang masuk khusus di tanggal yang dipilih
         $detailStok = StokMasuk::with('barang')
-            ->whereDate('created_at', $tanggal)
+            ->whereDate('tanggal_masuk', $tanggal)
             ->latest()
             ->get();
 
