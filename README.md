@@ -17,6 +17,7 @@ Dokumentasi ini adalah panduan lengkap bagi pengguna untuk memahami alur kerja d
 ---
 
 ## Situs Website: https://aptaa-main-krok8v.free.laravel.cloud
+# notes: Data yang digunakan dalam sistem hasil dari seeder
 
 ---
 
