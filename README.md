@@ -1,4 +1,4 @@
-# 📦 APTAA System
+# APTAA System
 
 Selamat datang di sistem informasi manajemen APTAA! 
 
@@ -8,7 +8,7 @@ Dokumentasi ini adalah panduan lengkap bagi pengguna untuk memahami alur kerja d
 
 ---
 
-## 📑 Daftar Isi
+## Daftar Isi
 1. [Akses Sistem (Demo Login)](#-akses-sistem-demo-login)
 2. [Alur Kerja Sistem (System Workflow)](#-alur-kerja-sistem)
 3. [Panduan Penggunaan (Langkah-demi-Langkah)](#-panduan-penggunaan-langkah-demi-langkah)
@@ -16,21 +16,25 @@ Dokumentasi ini adalah panduan lengkap bagi pengguna untuk memahami alur kerja d
 
 ---
 
-## 🔐 Akses Sistem (Demo Login)
+## Situs Website: https://aptaa-main-krok8v.free.laravel.cloud
+
+---
+
+## Akses Sistem (Demo Login)
 
 Sistem ini membagi hak akses ke dalam beberapa peran (*Role*). Untuk mencoba fitur secara menyeluruh, silakan *login* menggunakan informasi akun berikut pada halaman utama:
 
-* **Manajer** | Email: `manajer@aptaa.com` | Password: `manajer123`
-* **Admin** | Email: `admin@aptaa.com` | Password: `admin123`
-* **Tim Marketing** | Email: `marketing@aptaa.com` | Password: `marketing123`
-* **Tim Gudang** | Email: `gudang@aptaa.com` | Password: `gudang123`
-* **Tim Barang** | Email: `timbarang@aptaa.com` | Password: `timbarang123`
+* **Manajer** | Email: `manajer@aptaa.com` | Password: `password123`
+* **Admin** | Email: `admin@aptaa.com` | Password: `password123`
+* **Tim Marketing** | Email: `marketing@aptaa.com` | Password: `password123`
+* **Tim Gudang** | Email: `gudang@aptaa.com` | Password: `password123`
+* **Tim Barang** | Email: `timbarang@aptaa.com` | Password: `password123`
 
 *(Catatan: Kredensial di atas adalah data sampel untuk keperluan uji coba).*
 
 ---
 
-## 🔄 Alur Kerja Sistem
+## Alur Kerja Sistem
 
 Untuk memahami cara sistem APTAA bekerja, pengguna dapat mengikuti 3 alur utama operasional bisnis:
 
@@ -40,7 +44,7 @@ Untuk memahami cara sistem APTAA bekerja, pengguna dapat mengikuti 3 alur utama 
 
 ---
 
-## 📖 Panduan Penggunaan (Langkah-demi-Langkah)
+## Panduan Penggunaan (Langkah-demi-Langkah)
 
 ### 1. Fitur HR: Melakukan Absensi GPS (Semua Role)
 1. *Login* ke dalam sistem. Anda akan langsung diarahkan ke halaman **Dashboard**.
@@ -107,9 +111,20 @@ Untuk memahami cara sistem APTAA bekerja, pengguna dapat mengikuti 3 alur utama 
 5. Klik **"ACC"** jika anda setuju, **"klik Tolal"** jika anda tidak setuju.
 6. Anda bisa mengunduh data dalam bentuk file PDF/Excel.
 
-### 8. Manajer: Memantau Laporan
+### 11. Manajer: Memantau Laporan
 1. *Login* sebagai **Manajer**, lalu buka menu **Dashboard Laporan**.
-2. Anda dapat melihat metrik penjualan secara *real-time* dan mencetak struk/faktur transaksi yang telah berhasil.
+2. Anda dapat melihat metrik penjualan secara *real-time* dan melihat detail transaksi yang telah berhasil.
+
+### 12. Manajer: Manajemen Data Barang
+1. *Login* sebagai **Manajer**, lalu buka menu **Data Barang**
+2. Anda akan melihat data master barang yang ada dalam bisnis anda.
+3. Disini anda juga bisa melihat ketersediaan stok secara real-time.
+4. Anda bisa menambahkan barang baru dengan fitur **Tambah Barang Baru**
+5. Pada halaman form anda harus memasukkan kode SKU, Nama Produk/Barang, Kategori(Dropdown) dan Satuan Utama(Kg/Ekor)
+6. Saat anda mengklik simpan data barang, maka database akan diperbarui otomatis
+7. Selain itu, anda juga bisa melakukan edit data jika dirasa ada kesalahan pada data barang dengan fitur pensil pada kolom aksi
+8. Di halaman ini tidak jauh beda dengan halaman form input tetapi disini sudah ada data sebelumnya yang ingin diedit
+9. Saat anda mengklik simpan perubahan, maka database akan diperbarui otomatis
 
 ---
 
