@@ -216,7 +216,15 @@ class PermintaanStokController extends Controller
     {
         // Nggak perlu load detail barang di sini biar query lebih ringan
         $permintaans = PermintaanStok::with(['pembuat', 'manajer'])
-                        ->orderByRaw("FIELD(status, 'pending', 'approved', 'rejected')")
+                        ->orderByRaw("
+                            CASE 
+                                WHEN status = 'pending' THEN 1
+                                WHEN status = 'approved' THEN 2
+                                WHEN status = 'rejected' THEN 3
+                                ELSE 4 
+                            END
+                        ")
+                        ->orderBy('tanggal_request', 'desc')
                         ->latest('tanggal_request')
                         ->paginate(15);
 
