@@ -116,7 +116,7 @@ class StokMasukController extends Controller
             'aktivitas' => 'Memperbarui catatan data stok masuk'
         ]);
 
-        return redirect()->route('stok-masuk.index')->with('success', 'Data Stok Masuk berhasil diperbarui!');
+        return redirect()->route('stok_masuk.index')->with('success', 'Data Stok Masuk berhasil diperbarui!');
     }
 
     /**
